@@ -1,0 +1,33 @@
+<h1 class="text-2xl font-bold mb-6">Selecciones clasificadas</h1>
+
+<% if @ready %>
+  <p class="text-gray-600 mb-4">
+    32 clasificados: primeros y segundos de cada grupo, más los ocho mejores terceros lugares.
+  </p>
+  <div class="bg-white border border-gray-200">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-600">
+        <tr>
+          <th class="px-4 py-2 text-left">Procedencia</th>
+          <th class="px-4 py-2 text-left">Selección</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @qualified.each do |qt| %>
+          <tr class="border-t border-gray-200">
+            <td class="px-4 py-2">
+              <span class="inline-block px-2 py-0.5 text-xs font-medium border <%= qt.label.start_with?('3') ? 'border-yellow-300 bg-yellow-50 text-yellow-800' : 'border-green-300 bg-green-50 text-green-800' %>">
+                <%= qt.label %>
+              </span>
+            </td>
+            <td class="px-4 py-2 font-medium"><%= qt.team.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="border-l-4 border-yellow-600 bg-yellow-50 text-yellow-900 px-4 py-3">
+    Los clasificados se determinan cuando la fase de grupos esté completa (los 12 grupos con sus 6 partidos jugados).
+  </div>
+<% end %>

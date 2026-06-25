@@ -1,0 +1,56 @@
+<% progress = @group_matches_total.zero? ? 0 : (100.0 * @group_matches_played / @group_matches_total).round %>
+
+<header class="mb-8 border-b border-gray-300 pb-4">
+  <h1 class="text-2xl font-bold">Copa Mundial de la FIFA 2026</h1>
+  <p class="text-gray-600">México, Estados Unidos y Canadá. Sistema de gestión del torneo.</p>
+</header>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+  <div class="bg-white border border-gray-200 p-5">
+    <p class="text-2xl font-bold"><%= @groups.count %></p>
+    <p class="text-sm text-gray-500">Grupos</p>
+  </div>
+  <div class="bg-white border border-gray-200 p-5">
+    <p class="text-2xl font-bold"><%= @total_teams %></p>
+    <p class="text-sm text-gray-500">Selecciones</p>
+  </div>
+  <div class="bg-white border border-gray-200 p-5">
+    <p class="text-2xl font-bold"><%= @group_matches_played %>/<%= @group_matches_total %></p>
+    <p class="text-sm text-gray-500">Partidos de grupos</p>
+  </div>
+  <div class="bg-white border border-gray-200 p-5">
+    <p class="text-2xl font-bold"><%= @knockout_built ? "Sí" : "No" %></p>
+    <p class="text-sm text-gray-500">Eliminación generada</p>
+  </div>
+</div>
+
+<div class="bg-white border border-gray-200 p-5 mb-8">
+  <div class="flex justify-between text-sm mb-2">
+    <span class="font-medium">Avance de la fase de grupos</span>
+    <span class="text-gray-500"><%= progress %>%</span>
+  </div>
+  <div class="w-full bg-gray-200 h-3">
+    <div class="bg-green-700 h-3" style="width: <%= progress %>%"></div>
+  </div>
+</div>
+
+<div class="bg-white border border-gray-200 p-6 mb-8">
+  <h2 class="text-lg font-bold mb-4">Podio del torneo</h2>
+  <% if @podium.champion %>
+    <table class="text-sm">
+      <tbody>
+        <tr><td class="pr-6 py-1 text-gray-500">Campeón</td><td class="font-semibold"><%= @podium.champion.name %></td></tr>
+        <tr><td class="pr-6 py-1 text-gray-500">Subcampeón</td><td class="font-semibold"><%= @podium.runner_up&.name %></td></tr>
+        <tr><td class="pr-6 py-1 text-gray-500">Tercer lugar</td><td class="font-semibold"><%= @podium.third_place&.name %></td></tr>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-500">El campeón se mostrará cuando se complete la final del torneo.</p>
+  <% end %>
+</div>
+
+<div class="flex flex-wrap gap-3">
+  <%= link_to "Ver grupos", groups_path, class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700" %>
+  <%= link_to "Registrar resultados", matches_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200" %>
+  <%= link_to "Ver eliminación directa", knockout_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200" %>
+</div>

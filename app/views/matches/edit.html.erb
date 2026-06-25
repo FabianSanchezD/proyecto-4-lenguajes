@@ -1,0 +1,44 @@
+<div class="max-w-md mx-auto">
+  <p class="text-sm text-gray-500 mb-1"><%= @match.stage_name %><%= ", Grupo #{@match.group.name}" if @match.group %></p>
+  <h1 class="text-2xl font-bold mb-6">Registrar resultado</h1>
+
+  <%= form_with model: @match, url: match_path(@match), method: :patch, class: "bg-white border border-gray-200 p-6" do |f| %>
+    <% if @match.errors.any? %>
+      <div class="mb-4 border-l-4 border-red-600 bg-red-50 text-red-800 px-4 py-3 text-sm">
+        <%= @match.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+
+    <div class="grid grid-cols-5 gap-2 items-center mb-4">
+      <div class="col-span-2 text-right font-medium"><%= @match.home_team.name %></div>
+      <div class="text-center text-gray-400">vs</div>
+      <div class="col-span-2 font-medium"><%= @match.away_team.name %></div>
+    </div>
+
+    <div class="grid grid-cols-5 gap-2 items-center mb-4">
+      <%= f.number_field :home_goals, value: @match.home_goals, min: 0, required: true,
+            class: "col-span-2 border border-gray-300 px-3 py-2 text-center text-lg" %>
+      <div class="text-center text-gray-400">-</div>
+      <%= f.number_field :away_goals, value: @match.away_goals, min: 0, required: true,
+            class: "col-span-2 border border-gray-300 px-3 py-2 text-center text-lg" %>
+    </div>
+
+    <% if @match.knockout? %>
+      <div class="border-t border-gray-200 pt-4 mt-4">
+        <p class="text-sm font-medium mb-2">Penales <span class="text-gray-400 font-normal">(solo si hay empate)</span></p>
+        <div class="grid grid-cols-5 gap-2 items-center">
+          <%= f.number_field :home_penalties, value: @match.home_penalties, min: 0,
+                class: "col-span-2 border border-gray-300 px-3 py-2 text-center" %>
+          <div class="text-center text-gray-400">-</div>
+          <%= f.number_field :away_penalties, value: @match.away_penalties, min: 0,
+                class: "col-span-2 border border-gray-300 px-3 py-2 text-center" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="flex gap-3 mt-6">
+      <%= f.submit "Guardar resultado", class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 cursor-pointer" %>
+      <%= link_to "Cancelar", matches_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,37 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Selecciones participantes</h1>
+  <%= link_to "Nueva selección", new_team_path, class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700" %>
+</div>
+
+<div class="bg-white border border-gray-200">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-100 text-gray-600">
+      <tr>
+        <th class="px-4 py-2 text-left">Selección</th>
+        <th class="px-4 py-2 text-left">Grupo</th>
+        <th class="px-4 py-2">Bombo</th>
+        <th class="px-4 py-2">Pts</th>
+        <th class="px-4 py-2">GF</th>
+        <th class="px-4 py-2">GC</th>
+        <th class="px-4 py-2">DG</th>
+        <th class="px-4 py-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teams.each do |team| %>
+        <tr class="border-t border-gray-200">
+          <td class="px-4 py-2 font-medium"><%= link_to team.name, team, class: "hover:text-green-800" %></td>
+          <td class="px-4 py-2"><%= team.group ? "Grupo #{team.group.name}" : "Sin grupo" %></td>
+          <td class="px-4 py-2 text-center"><%= team.pot || "" %></td>
+          <td class="px-4 py-2 text-center font-bold"><%= team.points %></td>
+          <td class="px-4 py-2 text-center"><%= team.goals_for %></td>
+          <td class="px-4 py-2 text-center"><%= team.goals_against %></td>
+          <td class="px-4 py-2 text-center"><%= team.goal_difference %></td>
+          <td class="px-4 py-2 text-right">
+            <%= link_to "Editar", edit_team_path(team), class: "text-gray-500 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

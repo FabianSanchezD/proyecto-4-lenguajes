@@ -1,0 +1,21 @@
+<%= form_with model: group, class: "bg-white border border-gray-200 p-6 max-w-md" do |f| %>
+  <% if group.errors.any? %>
+    <div class="mb-4 border-l-4 border-red-600 bg-red-50 text-red-800 px-4 py-3 text-sm">
+      <ul class="list-disc list-inside">
+        <% group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :name, "Identificador del grupo (A a L)", class: "block text-sm font-medium mb-1" %>
+    <%= f.text_field :name, class: "w-full border border-gray-300 px-3 py-2 focus:border-gray-900 outline-none", placeholder: "Ej: A" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit "Guardar", class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 cursor-pointer" %>
+    <%= link_to "Cancelar", groups_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200" %>
+  </div>
+<% end %>

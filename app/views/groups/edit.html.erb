@@ -1,0 +1,6 @@
+<h1 class="text-2xl font-bold mb-6">Editar grupo <%= @group.name %></h1>
+<%= render "form", group: @group %>
+
+<%= button_to "Eliminar grupo", @group, method: :delete,
+      form: { data: { turbo_confirm: "¿Eliminar el grupo #{@group.name} y todos sus datos?" } },
+      class: "mt-4 px-4 py-2 bg-red-700 text-white hover:bg-red-600" %>

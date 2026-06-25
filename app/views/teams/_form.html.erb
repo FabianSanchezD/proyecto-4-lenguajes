@@ -1,0 +1,51 @@
+<%= form_with model: team, class: "bg-white border border-gray-200 p-6 max-w-md" do |f| %>
+  <% if team.errors.any? %>
+    <div class="mb-4 border-l-4 border-red-600 bg-red-50 text-red-800 px-4 py-3 text-sm">
+      <ul class="list-disc list-inside">
+        <% team.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :name, "Nombre del país", class: "block text-sm font-medium mb-1" %>
+    <%= f.text_field :name, class: "w-full border border-gray-300 px-3 py-2 focus:border-gray-900 outline-none" %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3 mb-4">
+    <div>
+      <%= f.label :group_id, "Grupo asignado", class: "block text-sm font-medium mb-1" %>
+      <%= f.collection_select :group_id, Group.all, :id, ->(g) { "Grupo #{g.name}" },
+            { include_blank: "Sin grupo" },
+            class: "w-full border border-gray-300 px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :pot, "Bombo", class: "block text-sm font-medium mb-1" %>
+      <%= f.select :pot, (1..4).map { |p| ["Bombo #{p}", p] }, { include_blank: "Sin bombo" },
+            class: "w-full border border-gray-300 px-3 py-2" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-3 mb-4">
+    <div>
+      <%= f.label :points, "Puntos", class: "block text-sm font-medium mb-1" %>
+      <%= f.number_field :points, class: "w-full border border-gray-300 px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :goals_for, "GF", class: "block text-sm font-medium mb-1" %>
+      <%= f.number_field :goals_for, class: "w-full border border-gray-300 px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :goals_against, "GC", class: "block text-sm font-medium mb-1" %>
+      <%= f.number_field :goals_against, class: "w-full border border-gray-300 px-3 py-2" %>
+    </div>
+  </div>
+  <p class="text-xs text-gray-400 mb-4">Los puntos y goles se recalculan automáticamente al registrar resultados.</p>
+
+  <div class="flex gap-3">
+    <%= f.submit "Guardar", class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 cursor-pointer" %>
+    <%= link_to "Cancelar", teams_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200" %>
+  </div>
+<% end %>

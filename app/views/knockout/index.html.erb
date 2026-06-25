@@ -1,0 +1,55 @@
+<div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+  <h1 class="text-2xl font-bold">Fase de eliminación directa</h1>
+  <div class="flex gap-3">
+    <%= link_to "Ver clasificados", qualification_path, class: "px-4 py-2 border border-gray-400 hover:bg-gray-200 text-sm" %>
+    <% if @ready %>
+      <%= button_to "Regenerar bracket", build_knockout_path, method: :post,
+            form: { data: { turbo_confirm: "Esto reiniciará los resultados de eliminación directa. ¿Continuar?" } },
+            class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 text-sm" %>
+    <% end %>
+  </div>
+</div>
+
+<% unless @ready %>
+  <div class="border-l-4 border-yellow-600 bg-yellow-50 text-yellow-900 px-4 py-3 mb-6">
+    La fase de grupos aún no está completa. El bracket se generará automáticamente cuando todos los
+    partidos de grupos tengan resultado.
+  </div>
+<% end %>
+
+<% if @podium.champion %>
+  <div class="border border-gray-300 bg-white p-5 mb-8">
+    <p class="text-sm text-gray-500 mb-1">Campeón del Mundial 2026</p>
+    <p class="text-xl font-bold"><%= @podium.champion.name %></p>
+    <p class="text-sm text-gray-600 mt-1">
+      Subcampeón: <strong><%= @podium.runner_up&.name %></strong>.
+      Tercer lugar: <strong><%= @podium.third_place&.name %></strong>.
+    </p>
+  </div>
+<% end %>
+
+<div class="overflow-x-auto pb-4">
+  <div class="flex gap-6 min-w-max">
+    <% { round_of_32: "Dieciseisavos", round_of_16: "Octavos", quarter_final: "Cuartos", semi_final: "Semifinales", final: "Final" }.each do |stage, title| %>
+      <div class="w-64 flex-shrink-0">
+        <h3 class="text-sm font-bold text-center bg-gray-800 text-white py-2"><%= title %></h3>
+        <div class="space-y-2 mt-2">
+          <% @rounds[stage].each do |m| %>
+            <%= render "match_card", match: m %>
+          <% end %>
+          <% if @rounds[stage].empty? %>
+            <p class="text-xs text-gray-400 text-center italic py-4">Por definir</p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% third = @rounds[:third_place].first %>
+<% if third %>
+  <div class="mt-8 max-w-xs">
+    <h3 class="text-sm font-bold text-center bg-gray-600 text-white py-2">Partido por el tercer lugar</h3>
+    <div class="mt-2"><%= render "match_card", match: third %></div>
+  </div>
+<% end %>

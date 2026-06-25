@@ -1,0 +1,66 @@
+<h1 class="text-2xl font-bold mb-6">Partidos y resultados</h1>
+
+<section class="mb-10">
+  <h2 class="text-xl font-bold mb-4">Fase de grupos</h2>
+  <% @group_matches.group_by(&:group).each do |group, matches| %>
+    <div class="bg-white border border-gray-200 mb-4">
+      <h3 class="bg-gray-100 px-5 py-2 font-bold border-b border-gray-200">Grupo <%= group.name %></h3>
+      <ul class="divide-y divide-gray-200">
+        <% matches.each do |m| %>
+          <li class="px-5 py-3 flex items-center justify-between">
+            <span class="flex-1"><%= m.home_team.name %> <span class="text-gray-400">vs</span> <%= m.away_team.name %></span>
+            <span class="flex items-center gap-4">
+              <% if m.played? %>
+                <span class="font-bold text-lg"><%= m.home_goals %> - <%= m.away_goals %></span>
+              <% else %>
+                <span class="text-gray-400 italic text-sm">Pendiente</span>
+              <% end %>
+              <%= link_to (m.played? ? "Editar" : "Registrar"), edit_match_path(m),
+                    class: "px-3 py-1 bg-gray-900 text-white text-sm hover:bg-gray-700" %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% if @group_matches.empty? %>
+    <p class="text-gray-500">No hay partidos de fase de grupos. Genere los calendarios desde cada grupo.</p>
+  <% end %>
+</section>
+
+<section>
+  <h2 class="text-xl font-bold mb-4">Eliminación directa</h2>
+  <% if @knockout_matches.any? %>
+    <% @knockout_matches.group_by(&:stage_name).each do |stage_name, matches| %>
+      <div class="bg-white border border-gray-200 mb-4">
+        <h3 class="bg-gray-800 text-white px-5 py-2 font-bold"><%= stage_name %></h3>
+        <ul class="divide-y divide-gray-200">
+          <% matches.each do |m| %>
+            <li class="px-5 py-3 flex items-center justify-between">
+              <span class="flex-1"><%= m.label %></span>
+              <span class="flex items-center gap-4">
+                <% if m.played? %>
+                  <span class="font-bold text-lg">
+                    <%= m.home_goals %> - <%= m.away_goals %>
+                    <% if m.home_penalties %><span class="text-xs text-gray-500">(pen. <%= m.home_penalties %>-<%= m.away_penalties %>)</span><% end %>
+                  </span>
+                <% elsif m.teams_defined? %>
+                  <span class="text-gray-400 italic text-sm">Pendiente</span>
+                <% else %>
+                  <span class="text-gray-300 italic text-sm">Equipos por definir</span>
+                <% end %>
+                <% if m.teams_defined? %>
+                  <%= link_to (m.played? ? "Editar" : "Registrar"), edit_match_path(m),
+                        class: "px-3 py-1 bg-gray-900 text-white text-sm hover:bg-gray-700" %>
+                <% end %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-500">El bracket se genera automáticamente al completar la fase de grupos.
+      También puede generarlo desde <%= link_to "Eliminación directa", knockout_path, class: "text-green-800 hover:underline" %>.</p>
+  <% end %>
+</section>

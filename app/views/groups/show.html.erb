@@ -1,0 +1,75 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Grupo <%= @group.name %></h1>
+  <div class="flex gap-3 text-sm">
+    <%= link_to "Agregar selección", new_team_path(group_id: @group.id), class: "px-3 py-2 bg-gray-900 text-white hover:bg-gray-700" %>
+    <%= link_to "Editar grupo", edit_group_path(@group), class: "px-3 py-2 border border-gray-400 hover:bg-gray-200" %>
+  </div>
+</div>
+
+<div class="bg-white border border-gray-200 mb-8">
+  <h2 class="text-base font-bold px-5 py-3 bg-gray-900 text-white">Tabla de posiciones</h2>
+  <table class="w-full text-sm">
+    <thead class="bg-gray-100 text-gray-600">
+      <tr>
+        <th class="px-3 py-2 text-left">#</th>
+        <th class="px-3 py-2 text-left">Selección</th>
+        <th class="px-3 py-2">PJ</th>
+        <th class="px-3 py-2">G</th>
+        <th class="px-3 py-2">E</th>
+        <th class="px-3 py-2">P</th>
+        <th class="px-3 py-2">GF</th>
+        <th class="px-3 py-2">GC</th>
+        <th class="px-3 py-2">DG</th>
+        <th class="px-3 py-2 font-bold">Pts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @standings.each do |s| %>
+        <tr class="border-t border-gray-200 <%= s.rank <= 2 ? 'bg-green-50' : '' %>">
+          <td class="px-3 py-2 font-medium"><%= s.rank %></td>
+          <td class="px-3 py-2 font-medium"><%= link_to s.team.name, s.team, class: "hover:text-green-800" %></td>
+          <td class="px-3 py-2 text-center"><%= s.played %></td>
+          <td class="px-3 py-2 text-center"><%= s.won %></td>
+          <td class="px-3 py-2 text-center"><%= s.drawn %></td>
+          <td class="px-3 py-2 text-center"><%= s.lost %></td>
+          <td class="px-3 py-2 text-center"><%= s.goals_for %></td>
+          <td class="px-3 py-2 text-center"><%= s.goals_against %></td>
+          <td class="px-3 py-2 text-center"><%= s.goal_difference %></td>
+          <td class="px-3 py-2 text-center font-bold"><%= s.points %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="text-xs text-gray-500 px-5 py-2 bg-gray-50 border-t border-gray-200">
+    Las dos primeras posiciones (resaltadas) clasifican directamente a la siguiente fase.
+  </p>
+</div>
+
+<div class="bg-white border border-gray-200 p-5">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-lg font-bold">Partidos</h2>
+    <% if @matches.empty? %>
+      <%= button_to "Generar calendario", generate_fixtures_group_path(@group), method: :post,
+            class: "px-3 py-2 bg-gray-900 text-white hover:bg-gray-700 text-sm" %>
+    <% end %>
+  </div>
+  <% if @matches.empty? %>
+    <p class="text-gray-500 text-sm">Aún no hay partidos. Agregue 4 selecciones y genere el calendario.</p>
+  <% else %>
+    <ul class="divide-y divide-gray-200">
+      <% @matches.each do |match| %>
+        <li class="py-3 flex items-center justify-between">
+          <span><%= match.home_team.name %> <span class="text-gray-400">vs</span> <%= match.away_team.name %></span>
+          <span class="flex items-center gap-3">
+            <% if match.played? %>
+              <span class="font-bold"><%= match.home_goals %> - <%= match.away_goals %></span>
+            <% else %>
+              <span class="text-gray-400 text-sm italic">Pendiente</span>
+            <% end %>
+            <%= link_to (match.played? ? "Editar" : "Registrar"), edit_match_path(match), class: "text-green-800 hover:underline text-sm" %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
