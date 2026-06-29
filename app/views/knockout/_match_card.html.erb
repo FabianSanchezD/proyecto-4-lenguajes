@@ -1,11 +1,10 @@
-<% winner = match.winner %>
 <div class="bg-white border border-gray-200 text-sm">
   <% [[match.home_team, match.home_goals, match.home_penalties],
       [match.away_team, match.away_goals, match.away_penalties]].each do |team, goals, pens| %>
-    <div class="flex justify-between items-center px-3 py-1.5 <%= 'border-b border-gray-100' if team == match.home_team %> <%= 'bg-green-50 font-semibold' if winner && team == winner %>">
+    <div class="flex justify-between items-center px-3 py-1.5 <%= 'border-b border-gray-100' if team == match.home_team %>">
       <span class="truncate <%= 'text-gray-400 italic' unless team %>"><%= team&.name || 'Por definir' %></span>
       <span class="text-gray-600 tabular-nums">
-        <% if match.played? %><%= goals %><% if pens %> <span class="text-xs text-gray-400">(<%= pens %>)</span><% end %><% end %>
+        <% if match.played? %><%= goals %><% if pens %> (<%= pens %>)</span><% end %><% end %>
       </span>
     </div>
   <% end %>

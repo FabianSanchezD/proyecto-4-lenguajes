@@ -9,7 +9,6 @@
       <tr>
         <th class="px-4 py-2 text-left">Selección</th>
         <th class="px-4 py-2 text-left">Grupo</th>
-        <th class="px-4 py-2">Bombo</th>
         <th class="px-4 py-2">Pts</th>
         <th class="px-4 py-2">GF</th>
         <th class="px-4 py-2">GC</th>
@@ -22,7 +21,6 @@
         <tr class="border-t border-gray-200">
           <td class="px-4 py-2 font-medium"><%= link_to team.name, team, class: "hover:text-green-800" %></td>
           <td class="px-4 py-2"><%= team.group ? "Grupo #{team.group.name}" : "Sin grupo" %></td>
-          <td class="px-4 py-2 text-center"><%= team.pot || "" %></td>
           <td class="px-4 py-2 text-center font-bold"><%= team.points %></td>
           <td class="px-4 py-2 text-center"><%= team.goals_for %></td>
           <td class="px-4 py-2 text-center"><%= team.goals_against %></td>

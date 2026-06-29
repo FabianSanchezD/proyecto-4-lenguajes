@@ -20,9 +20,12 @@ class MatchesController < ApplicationController
       home_penalties: result_params[:home_penalties],
       away_penalties: result_params[:away_penalties]
     )
-
     if saved
-      redirect_to matches_path, notice: "Resultado registrado: #{@match.label} (#{@match.home_goals}-#{@match.away_goals})."
+      if @match.knockout?
+        redirect_to knockout_path, notice: "Resultado registrado: #{@match.label} (#{@match.home_goals}-#{@match.away_goals})."
+      else
+        redirect_to matches_path, notice: "Resultado registrado: #{@match.label} (#{@match.home_goals}-#{@match.away_goals})."
+      end
     else
       flash.now[:alert] = @match.errors.full_messages.to_sentence
       render :edit, status: :unprocessable_entity

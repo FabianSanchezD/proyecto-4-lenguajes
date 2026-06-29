@@ -25,7 +25,7 @@
     </thead>
     <tbody>
       <% @standings.each do |s| %>
-        <tr class="border-t border-gray-200 <%= s.rank <= 2 ? 'bg-green-50' : '' %>">
+        <tr class="border-t border-gray-200">
           <td class="px-3 py-2 font-medium"><%= s.rank %></td>
           <td class="px-3 py-2 font-medium"><%= link_to s.team.name, s.team, class: "hover:text-green-800" %></td>
           <td class="px-3 py-2 text-center"><%= s.played %></td>
@@ -40,9 +40,6 @@
       <% end %>
     </tbody>
   </table>
-  <p class="text-xs text-gray-500 px-5 py-2 bg-gray-50 border-t border-gray-200">
-    Las dos primeras posiciones (resaltadas) clasifican directamente a la siguiente fase.
-  </p>
 </div>
 
 <div class="bg-white border border-gray-200 p-5">
@@ -59,7 +56,7 @@
     <ul class="divide-y divide-gray-200">
       <% @matches.each do |match| %>
         <li class="py-3 flex items-center justify-between">
-          <span><%= match.home_team.name %> <span class="text-gray-400">vs</span> <%= match.away_team.name %></span>
+          <span><%= match.home_team.name %> vs <%= match.away_team.name %></span>
           <span class="flex items-center gap-3">
             <% if match.played? %>
               <span class="font-bold"><%= match.home_goals %> - <%= match.away_goals %></span>

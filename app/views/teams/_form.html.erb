@@ -21,11 +21,6 @@
             { include_blank: "Sin grupo" },
             class: "w-full border border-gray-300 px-3 py-2" %>
     </div>
-    <div>
-      <%= f.label :pot, "Bombo", class: "block text-sm font-medium mb-1" %>
-      <%= f.select :pot, (1..4).map { |p| ["Bombo #{p}", p] }, { include_blank: "Sin bombo" },
-            class: "w-full border border-gray-300 px-3 py-2" %>
-    </div>
   </div>
 
   <div class="grid grid-cols-3 gap-3 mb-4">

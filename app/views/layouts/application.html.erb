@@ -15,13 +15,11 @@
       <div class="container mx-auto px-5 py-3 flex flex-wrap items-center gap-6">
         <%= link_to "Mundial 2026", root_path, class: "text-lg font-semibold" %>
         <div class="flex flex-wrap gap-4 text-sm">
-          <%= link_to "Inicio", root_path, class: "hover:text-white text-gray-300" %>
-          <%= link_to "Sorteo", draw_path, class: "hover:text-white text-gray-300" %>
           <%= link_to "Grupos", groups_path, class: "hover:text-white text-gray-300" %>
           <%= link_to "Selecciones", teams_path, class: "hover:text-white text-gray-300" %>
           <%= link_to "Partidos", matches_path, class: "hover:text-white text-gray-300" %>
           <%= link_to "Clasificados", qualification_path, class: "hover:text-white text-gray-300" %>
-          <%= link_to "Eliminación", knockout_path, class: "hover:text-white text-gray-300" %>
+          <%= link_to "Eliminación directa", knockout_path, class: "hover:text-white text-gray-300" %>
         </div>
       </div>
     </nav>
